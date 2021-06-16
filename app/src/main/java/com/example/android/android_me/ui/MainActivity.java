@@ -72,7 +72,33 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
         } else {
             // We're in single-pane mode and displaying fragments on a phone in separate activities
             mTwoPane = false;
+
+
+            // The "Next" button launches a new AndroidMeActivity
+            Button nextButton = findViewById(R.id.next_button);
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(getMeIntent());
+                }
+            });
         }
+    }
+
+    /**
+     * generate intent that includes indexes for BodyPartFragment in phone
+     */
+    private Intent getMeIntent() {
+        // Put this information in a Bundle and attach it to an Intent that will launch an AndroidMeActivity
+        Bundle bundle = new Bundle();
+        bundle.putInt("headIndex", headIndex);
+        bundle.putInt("bodyIndex", bodyIndex);
+        bundle.putInt("legIndex", legIndex);
+
+        // Attach the Bundle to an intent
+        final Intent intent = new Intent(this, AndroidMeActivity.class);
+        intent.putExtras(bundle);
+        return intent;
     }
 
     // Define the behavior for onImageSelected
@@ -140,24 +166,6 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
                 default:
                     break;
             }
-            // Put this information in a Bundle and attach it to an Intent that will launch an AndroidMeActivity
-            Bundle b = new Bundle();
-            b.putInt("headIndex", headIndex);
-            b.putInt("bodyIndex", bodyIndex);
-            b.putInt("legIndex", legIndex);
-
-            // Attach the Bundle to an intent
-            final Intent intent = new Intent(this, AndroidMeActivity.class);
-            intent.putExtras(b);
-
-            // The "Next" button launches a new AndroidMeActivity
-            Button nextButton = findViewById(R.id.next_button);
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(intent);
-                }
-            });
         }
 
     }
